@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp6
+{
+    public static class adonet
+    {
+        static void GetData(int id)
+        {
+            string connect = "Server=DESKTOP-V62NBK6;Database=sqladonet;Trusted_Connection=True;";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT Name FROM Students WHERE ID = {id}", sqlConnection);
+                string a = (string)cmd.ExecuteScalar();
+                Console.WriteLine(a);
+
+
+            }
+        }
+
+        static void GetAllDatas()
+        {
+            string connect = "Server=DESKTOP-V62NBK6;Database=sqladonet;Trusted_Connection=True;";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"SELECT * FROM Students", sqlConnection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(reader[0] + " " + reader[1] + " " + reader[2] + " " + reader[3] + " " + reader[4] + " " + reader[5]);
+                    }
+                }
+
+
+            }
+        }
+        static void Insert()
+        {
+            string connect = "Server=DESKTOP-V62NBK6;Database=sqladonet;Trusted_Connection=True;";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"INSERT INTO Students VALUES ('yusif','eliyev',23,1) ", sqlConnection);
+                int a = cmd.ExecuteNonQuery();
+                if (a > 0)
+                Console.WriteLine("oldu");
+                else Console.WriteLine("error");
+
+
+            }
+        }
+        static void Delete(int id)
+        {
+            string connect = "Server=DESKTOP-V62NBK6;Database=sqladonet;Trusted_Connection=True;";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"DELETE FROM Students WHERE ID = {id}", sqlConnection);
+                int a = cmd.ExecuteNonQuery();
+                if (a > 0)
+                Console.WriteLine("silindi");
+                else Console.WriteLine("error");
+
+
+
+            }
+        }
+        static void Update(int age, int id)
+        {
+            string connect = "Server=DESKTOP-V62NBK6;Database=sqladonet;Trusted_Connection=True;";
+            using (SqlConnection sqlConnection = new SqlConnection(connect))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand($"UPDATE Students SET age = '{age}' WHERE id = {id}", sqlConnection);
+                int a = cmd.ExecuteNonQuery();
+                if (a > 0) Console.WriteLine("oldu");
+                else Console.WriteLine("error");
+           
+
+            }
+        }
+
+
+
+    }
+}
